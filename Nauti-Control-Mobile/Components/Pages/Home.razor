@@ -1,5 +1,35 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using ViewModels;
 
-Welcome to your new app.
+<RadzenStack Orientation="Orientation.Horizontal"  AlignItems="AlignItems.Center" Gap="1rem" Wrap="FlexWrap.Wrap" >
+    <RadzenButton Click=@(args => VM.StartScanning()) Text="Start Scan" ButtonStyle="ButtonStyle.Primary" />
+
+</RadzenStack>
+
+<RadzenDataList AllowVirtualization=true Style="height:400px;overflow:auto;"
+                WrapItems="true" AllowPaging="false"
+                Data="@VM.DeviceVMs" TItem="BluetoothDeviceVM"  PagerHorizontalAlign="HorizontalAlign.Left">
+    <Template Context="_device">
+        <RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
+            <RadzenRow Gap="0">
+                <RadzenColumn Size="12" SizeLG="3" class="rz-p-4 product-title">
+                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(_device.Name)</RadzenText>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeLG="7" class="rz-p-4">
+                    <RadzenRow Gap="0">
+                    
+                        <RadzenColumn Size="12" SizeMD="6" SizeLG="2">
+                            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-mb-0">Origin</RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body2">@(_device.Name)</RadzenText>
+                        </RadzenColumn>
+                  
+                    </RadzenRow>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeLG="2" class="rz-p-4">
+                    <RadzenButton Text="Order now" Style="width: 100%" />
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenCard>
+    </Template>
+</RadzenDataList>

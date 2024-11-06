@@ -9,6 +9,14 @@ namespace Nauti_Control_Mobile.ViewModels
 {
     public class BluetoothDeviceVM
     {
+
+        public string Name
+        {
+            get
+            {
+                return _bluetoothDevice.Name;
+            }
+        }
         private IDevice _bluetoothDevice;
 
         public BluetoothDeviceVM(IDevice bluetoothDevice)
