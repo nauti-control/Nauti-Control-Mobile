@@ -15,7 +15,8 @@ namespace Nauti_Control_Mobile.Components.Pages
   
         public Home()
         {
-            VM = new BluetoothManagerVM();
+            VM = new BluetoothManagerVM(UpdateState);
+            
         }
 
         protected override async Task OnInitializedAsync()
@@ -23,6 +24,14 @@ namespace Nauti_Control_Mobile.Components.Pages
             await base.OnInitializedAsync();
 
             
+        }
+
+        protected async void UpdateState()
+        {
+            await InvokeAsync(() =>
+            {
+                this.StateHasChanged();
+            });
         }
 
     }
