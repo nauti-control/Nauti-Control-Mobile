@@ -14,7 +14,8 @@ namespace Nauti_Control_Mobile.ViewModels
     {
         private IBluetoothLE _ble;
         private IAdapter _adapter;
-        private Action _updateState;
+
+        public event EventHandler? OnStateChanged;
 
 
         /// <summary>
@@ -44,25 +45,59 @@ namespace Nauti_Control_Mobile.ViewModels
         /// </summary>
         public ObservableCollection<BluetoothDeviceVM> DeviceVMs { get; private set; }
 
+
+        private BluetoothDeviceVM? _connectedDevice;
+        public BluetoothDeviceVM? ConnectedDevice
+        {
+            get
+            {
+                return _connectedDevice;
+            }
+
+            set
+            {
+                _connectedDevice = value;
+                UpdateStateChanged();
+            }
+        }
+
+        
+
+        /// <summary>
+        /// Static Instance
+        /// </summary>
+        public static BluetoothManagerVM Instance { get; internal set; }
+
         /// <summary>
         /// Consructor
         /// </summary>
         /// <param name="updateState">callback</param>
-        public BluetoothManagerVM(Action updateState)
+        public BluetoothManagerVM()
         {
 
-            _updateState = updateState;
             _ble = CrossBluetoothLE.Current;
             _adapter = CrossBluetoothLE.Current.Adapter;
             _adapter.DeviceDiscovered += DeviceDiscovered;
             _adapter.ScanMode = ScanMode.Balanced;
             _adapter.ScanTimeoutElapsed += ScanTimeoutElapsed;
             DeviceVMs = new ObservableCollection<BluetoothDeviceVM>();
+            BluetoothManagerVM.Instance = this;
+        }
+
+        /// <summary>
+        /// Update State Changed
+        /// </summary>
+        private void UpdateStateChanged()
+        {
+            if (OnStateChanged!= null)
+            {
+                OnStateChanged(this, null);
+            }
         }
 
         private void ScanTimeoutElapsed(object? sender, EventArgs e)
         {
-            _updateState();
+            UpdateStateChanged();
         }
 
         /// <summary>
@@ -75,9 +110,9 @@ namespace Nauti_Control_Mobile.ViewModels
             //Check device name
             if (!string.IsNullOrWhiteSpace(e.Device.Name))
             {
-                BluetoothDeviceVM vm = new BluetoothDeviceVM(e.Device);
+                BluetoothDeviceVM vm = new BluetoothDeviceVM(e.Device,_adapter,this);
                 DeviceVMs.Add(vm);
-                _updateState();
+                UpdateStateChanged();
             }
 
         }
@@ -94,7 +129,7 @@ namespace Nauti_Control_Mobile.ViewModels
             {
 
                 DeviceVMs.Clear();
-                _updateState();
+                UpdateStateChanged();
                 await _adapter.StartScanningForDevicesAsync();
             }
 

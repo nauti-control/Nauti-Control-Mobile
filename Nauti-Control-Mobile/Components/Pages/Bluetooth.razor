@@ -13,12 +13,12 @@
     <Template Context="_device">
         <RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
             <RadzenRow Gap="0">
-                <RadzenColumn Size="12" SizeLG="4" class="rz-p-4">
+                <RadzenColumn Size="12" SizeLG="10" class="rz-p-4">
                     <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(_device.Name)</RadzenText>
                 </RadzenColumn>
                
                 <RadzenColumn Size="12" SizeLG="2" class="rz-p-4">
-                    <RadzenButton Text="Connect" Style="width: 100%" />
+                    <RadzenButton Text="Connect" Style="width: 100%" Click="@(args=> _device.Connect())" />
                 </RadzenColumn>
             </RadzenRow>
         </RadzenCard>

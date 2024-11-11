@@ -1,4 +1,6 @@
-﻿namespace Nauti_Control_Mobile
+﻿using Nauti_Control_Mobile.ViewModels;
+
+namespace Nauti_Control_Mobile
 {
     public partial class App : Application
     {
@@ -7,6 +9,9 @@
             InitializeComponent();
 
             MainPage = new MainPage();
+
+            BluetoothManagerVM bluetoothManagerVM = new BluetoothManagerVM();
+           
         }
     }
 }

@@ -1,0 +1,84 @@
+﻿@page "/datadisplay"
+<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
+    <RadzenRow Gap="0">
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Wind Angle</RadzenText>
+        </RadzenColumn>
+
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.WindAngle)°</RadzenText>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenCard>
+<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
+    <RadzenRow Gap="0">
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Wind Speed</RadzenText>
+        </RadzenColumn>
+
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.WindSpeed) KTs</RadzenText>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenCard>
+
+<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
+    <RadzenRow Gap="0">
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Depth</RadzenText>
+        </RadzenColumn>
+
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.Depth) M</RadzenText>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenCard>
+
+<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
+    <RadzenRow Gap="0">
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Speed Over Ground</RadzenText>
+        </RadzenColumn>
+
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.SOG) KTs</RadzenText>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenCard>
+
+<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
+    <RadzenRow Gap="0">
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Speed Through Water</RadzenText>
+        </RadzenColumn>
+
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.STW) KTs</RadzenText>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenCard>
+
+<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
+    <RadzenRow Gap="0">
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Course Over Ground</RadzenText>
+        </RadzenColumn>
+
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.COG) °</RadzenText>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenCard>
+
+<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
+    <RadzenRow Gap="0">
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Heading</RadzenText>
+        </RadzenColumn>
+
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.HDG) °</RadzenText>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenCard>
+
