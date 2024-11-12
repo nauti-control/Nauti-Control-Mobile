@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Nauti_Control_Mobile.ViewModels.Bluetooth;
 using Plugin.BLE.Abstractions.Contracts;
 
@@ -13,6 +14,8 @@ namespace Nauti_Control_Mobile.ViewModels
     {
 
         private IAdapter _adapter;
+
+        private NavigationManager? _navigationmanager;
         /// <summary>
         /// Bluetooth Devices
         /// </summary>
@@ -62,14 +65,35 @@ namespace Nauti_Control_Mobile.ViewModels
 
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="stateHasChanged">State Has CHanged</param>
 
         public BluetoothVM(Action stateHasChanged) : base(stateHasChanged)
         {
 
             _adapter = BluetoothManagerVM.Instance.Adapter;
+            _adapter.DeviceDiscovered += DeviceDiscovered;
+            BluetoothManagerVM.Instance.OnConnectionChanged += OnConnectionChanged;
 
 
         }
+
+        /// <summary>
+        /// On Conncetion Changed
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event</param>
+        private void OnConnectionChanged(object? sender, EventArgs e)
+        {
+           if (BluetoothManagerVM.Instance.ConnectedDevice!=null && BluetoothManagerVM.Instance.ConnectedDevice.IsConnected && _navigationmanager!=null)
+            {
+                _navigationmanager.NavigateTo("/remote");
+            }
+        }
+
+
 
         /// <summary>
         /// Stop Scanning
@@ -115,6 +139,11 @@ namespace Nauti_Control_Mobile.ViewModels
 
             return status;
 
+        }
+
+        public async Task InitialiseAysnc(NavigationManager navigationManager)
+        {
+            _navigationmanager = navigationManager;
         }
     }
 }

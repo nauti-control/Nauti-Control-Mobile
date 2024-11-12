@@ -61,7 +61,7 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
         /// <summary>
         /// Static Instance
         /// </summary>
-        public static BluetoothManagerVM? Instance { get; internal set; }
+        public static BluetoothManagerVM Instance { get; internal set; }
 
         /// <summary>
         /// Consructor

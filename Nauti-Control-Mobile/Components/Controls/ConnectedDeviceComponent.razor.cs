@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Nauti_Control_Mobile.Components.Pages;
+using Nauti_Control_Mobile.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +9,16 @@ using System.Threading.Tasks;
 
 namespace Nauti_Control_Mobile.Components.Controls
 {
-    public partial class ConectedDeviceComponent : ComponentBase, IDisposable
+    public partial class ConnectedDeviceComponent : CustomComponentBase
     {
-        public void Dispose()
+        ConnectedDeviceVM VM { get; set; }
+
+        public ConnectedDeviceComponent()
         {
-            
+            VM = new ConnectedDeviceVM(OnStateChanged);
         }
+
+        
+        
     }
 }
