@@ -1,5 +1,4 @@
-﻿
-using Nauti_Control_Mobile.Models;
+﻿using Nauti_Control_Mobile.Models;
 using Plugin.BLE.Abstractions.Contracts;
 
 using System;
@@ -9,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nauti_Control_Mobile.ViewModels
+namespace Nauti_Control_Mobile.ViewModels.Bluetooth
 {
     public class BluetoothDeviceVM
     {
@@ -43,7 +42,7 @@ namespace Nauti_Control_Mobile.ViewModels
         private ICharacteristic? _hdgCharacteristic;
         private ICharacteristic? _dptCharacteristic;
 
-        public event EventHandler? OnDataUpdated;
+   
 
 
         public BluetoothManagerVM ParentManager { get; set; }
@@ -77,12 +76,12 @@ namespace Nauti_Control_Mobile.ViewModels
         /// </summary>
         /// <param name="bluetoothDevice">Device</param>
         /// <param name="adapter">Adapter</param>
-        public BluetoothDeviceVM(IDevice bluetoothDevice, IAdapter adapter, BluetoothManagerVM parentManager)
+        public BluetoothDeviceVM(IDevice bluetoothDevice, IAdapter adapter)
         {
             _bluetoothDevice = bluetoothDevice;
             _adapter = adapter;
             Data = new BoatData();
-            ParentManager = parentManager;
+            ParentManager =BluetoothManagerVM.Instance;
         }
 
         /// <summary>
@@ -138,10 +137,11 @@ namespace Nauti_Control_Mobile.ViewModels
                     }
                     IsConnected = true;
                     ParentManager.ConnectedDevice = this;
-                    
+
 
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
                 IsConnected = false;
@@ -193,11 +193,7 @@ namespace Nauti_Control_Mobile.ViewModels
                     {
                         Data.DPT = dobValue;
                     }
-                    if (OnDataUpdated != null)
-                    {
-
-                        OnDataUpdated(this, null);
-                    }
+                    ParentManager.DataUpdated();
                 }
             }
         }

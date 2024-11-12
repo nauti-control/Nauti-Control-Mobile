@@ -1,4 +1,5 @@
 ﻿using Nauti_Control_Mobile.ViewModels;
+using Nauti_Control_Mobile.ViewModels.Bluetooth;
 
 namespace Nauti_Control_Mobile
 {

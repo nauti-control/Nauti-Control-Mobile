@@ -1,4 +1,5 @@
 ﻿using Nauti_Control_Mobile.Models;
+using Nauti_Control_Mobile.ViewModels.Bluetooth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Nauti_Control_Mobile.ViewModels
 {
-    public class DataDisplayVM
+    public class DataDisplayVM : BaseVM
     {
 
-        public string WindAngle {
+        public string WindAngle
+        {
             get
             {
                 return BluetoothManagerVM.Instance.ConnectedDevice.Data.AWA.ToString();
@@ -67,16 +69,21 @@ namespace Nauti_Control_Mobile.ViewModels
 
 
 
-        public DataDisplayVM()
+        public DataDisplayVM(Action stateChanged) : base(stateChanged)
         {
-            BluetoothManagerVM.Instance.ConnectedDevice.OnDataUpdated += OnDataUpdated;
+            
         }
 
 
-        
+
+        /// <summary>
+        /// On Data Updated Event
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event</param>
         private void OnDataUpdated(object? sender, EventArgs e)
         {
-            
+            SetStateChanged();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Nauti_Control_Mobile.Components.Pages
+@inherits CustomComponentBase
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Nauti-Control Mobile</a>
     </div>
@@ -13,8 +15,10 @@
                 <span class="bi bi-bluetooth-fill-nav-menu" aria-hidden="true"></span> Bluetooth Scanner
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="remote">
+        @if (VM.IsConnected)
+        {
+            <div class="nav-item px-3">
+                <NavLink  class="nav-link" href="remote">
                 <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Remote Control
             </NavLink>
         </div>
@@ -23,5 +27,6 @@
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Data Display
             </NavLink>
         </div>
+        }
     </nav>
 </div>

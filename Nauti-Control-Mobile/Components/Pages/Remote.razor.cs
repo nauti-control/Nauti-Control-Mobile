@@ -8,8 +8,20 @@ using System.Threading.Tasks;
 
 namespace Nauti_Control_Mobile.Components.Pages
 {
-    public partial class Remote:ComponentBase
+    public partial class Remote:CustomComponentBase
     {
-        public RemoteVM VM { get; set; }= new RemoteVM();
+        /// <summary>
+        /// VM
+        /// </summary>
+        public RemoteVM VM { get; set; }
+
+
+        /// <summary>
+        /// Remote
+        /// </summary>
+        public Remote()
+        {
+            VM = new RemoteVM(OnStateChanged);
+        }
     }
 }

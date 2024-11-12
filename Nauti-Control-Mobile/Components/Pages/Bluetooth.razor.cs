@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Nauti_Control_Mobile.ViewModels;
+using Nauti_Control_Mobile.ViewModels.Bluetooth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,41 +9,18 @@ using System.Threading.Tasks;
 
 namespace Nauti_Control_Mobile.Components.Pages
 {
-    public partial class Bluetooth : ComponentBase,IDisposable
+    public partial class Bluetooth : CustomComponentBase
     {
-        private BluetoothManagerVM VM
+        private BluetoothVM VM
         {
-            get
-            {
-                return BluetoothManagerVM.Instance;
-            }
+            get;set;
         }
 
 
         public Bluetooth()
         {
-
-            BluetoothManagerVM.Instance.OnStateChanged += OnStateChanged;
-        }
-
-        private async void OnStateChanged(object? sender, EventArgs e)
-        {
-            await InvokeAsync(() =>
-            {
-                this.StateHasChanged();
-            });
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            await base.OnInitializedAsync();
-
-
-        }
-
-        public void Dispose()
-        {
-            BluetoothManagerVM.Instance.OnStateChanged -= OnStateChanged;
+            VM = new BluetoothVM(OnStateChanged);
+        
         }
     }
 }
