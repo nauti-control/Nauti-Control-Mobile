@@ -1,4 +1,15 @@
 ﻿@using Nauti_Control_Mobile.Components.Pages
 @inherits CustomComponentBase
+@inject NavigationManager NavigationManager
 
-<RadzenLabel Text=@VM.ConnectionMessage  />
+<RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center">
+    <RadzenColumn Size="6" class="rz-p-4"> 
+        <RadzenLabel Text=@VM.ConnectionMessage />
+    </RadzenColumn>
+    @if (VM.IsConnected)
+    {
+        <RadzenColumn Size="6" class="rz-p-4">
+            <RadzenButton BusyText="Disconnecting" IsBusy="@VM.IsBusy" Click=@(args => VM.OnClick()) Text="Disconnect" ButtonStyle="ButtonStyle.Primary"></RadzenButton>
+    </RadzenColumn>
+    }
+</RadzenRow>

@@ -51,6 +51,13 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
         /// </summary>
         public bool IsConnected { get; set; }
 
+
+        /// <summary>
+        /// Is Busy
+        /// </summary>
+        public bool IsBusy { get; set; }
+        
+
         /// <summary>
         /// Boat Data
         /// </summary>
@@ -89,8 +96,10 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
         /// </summary>
         public async Task Connect()
         {
+            IsBusy = true;
             try
             {
+               
                 await _adapter.ConnectToDeviceAsync(_bluetoothDevice);
                 IService service = await _bluetoothDevice.GetServiceAsync(Guid.Parse(ServiceUUID));
                 if (service != null)
@@ -147,6 +156,7 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
                 IsConnected = false;
                 ParentManager.ConnectedDevice = null;
             }
+            IsBusy= false;
 
         }
 
@@ -209,6 +219,15 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
                 await _cmdCharacteristic.WriteAsync(Encoding.ASCII.GetBytes(command));
 
             }
+        }
+
+        /// <summary>
+        /// Disconnect
+        /// </summary>
+        internal async Task Disconnect()
+        {
+            await _adapter.DisconnectDeviceAsync(_bluetoothDevice);
+            ParentManager.ConnectedDevice = null;
         }
     }
 }

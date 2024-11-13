@@ -18,7 +18,13 @@ namespace Nauti_Control_Mobile.Components.Controls
             VM = new ConnectedDeviceVM(OnStateChanged);
         }
 
-        
-        
+
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+            await VM.InitialiseAysnc(NavigationManager);
+        }
+
+
     }
 }

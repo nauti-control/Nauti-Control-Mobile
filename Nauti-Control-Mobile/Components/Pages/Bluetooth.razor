@@ -4,23 +4,27 @@
 @using Nauti_Control_Mobile.ViewModels.Bluetooth
 @using ViewModels;
 
-<RadzenStack Orientation="Orientation.Horizontal"  AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" Gap="1rem" Wrap="FlexWrap.Wrap"  >
-    <RadzenButton Disabled="@VM.IsStartScanDisabled" Click=@(args => VM.StartScanning()) Text="Start Scan" ButtonStyle="ButtonStyle.Primary" />
-    <RadzenButton Disabled="@VM.IsStopScanDisabled" Click=@(args => VM.StopScanning()) Text="Stop Scan" ButtonStyle="ButtonStyle.Secondary" />
+<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" Gap="1rem" Wrap="FlexWrap.Wrap">
+
+    <RadzenButton BusyText="Scanning" IsBusy="@VM.IsStartScanBusy" Click=@(args => VM.StartScanning()) Text="Start Scan" ButtonStyle="ButtonStyle.Primary" />
+    @if (VM.IsStartScanBusy)
+    {
+        <RadzenButton Click=@(args => VM.StopScanning()) Text="Stop Scan" ButtonStyle="ButtonStyle.Secondary" />
+    }
 </RadzenStack>
 
 <RadzenDataList AllowVirtualization="true" Style="height:100%;overflow:auto;"
                 AllowPaging="false"
-                Data="@VM.DeviceVMs" TItem="BluetoothDeviceVM"  PagerHorizontalAlign="HorizontalAlign.Left">
+                Data="@VM.DeviceVMs" TItem="BluetoothDeviceVM" PagerHorizontalAlign="HorizontalAlign.Left">
     <Template Context="_device">
         <RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
             <RadzenRow Gap="0">
                 <RadzenColumn Size="12" SizeLG="10" class="rz-p-4">
                     <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(_device.Name)</RadzenText>
                 </RadzenColumn>
-               
+
                 <RadzenColumn Size="12" SizeLG="2" class="rz-p-4">
-                    <RadzenButton Text="Connect" Style="width: 100%" Click="@(args=> _device.Connect())" />
+                    <RadzenButton BusyText="Connecting" IsBusy="_device.IsBusy" Text="Connect" Style="width: 100%" Click="@(args=> _device.Connect())" />
                 </RadzenColumn>
             </RadzenRow>
         </RadzenCard>

@@ -10,7 +10,7 @@ using Plugin.BLE.Abstractions.Contracts;
 
 namespace Nauti_Control_Mobile.ViewModels
 {
-    public class BluetoothVM:BaseVM
+    public class BluetoothVM : BaseVM
     {
 
         private IAdapter _adapter;
@@ -25,7 +25,7 @@ namespace Nauti_Control_Mobile.ViewModels
         /// <summary>
         /// Is Start Scan Button Disabled
         /// </summary>
-        public bool IsStartScanDisabled
+        public bool IsStartScanBusy
         {
             get
             {
@@ -34,16 +34,6 @@ namespace Nauti_Control_Mobile.ViewModels
         }
 
 
-        /// <summary>
-        /// Is Stop Scan Disabled
-        /// </summary>
-        public bool IsStopScanDisabled
-        {
-            get
-            {
-                return !_adapter.IsScanning;
-            }
-        }
 
 
         /// <summary>
@@ -87,10 +77,11 @@ namespace Nauti_Control_Mobile.ViewModels
         /// <param name="e">Event</param>
         private void OnConnectionChanged(object? sender, EventArgs e)
         {
-           if (BluetoothManagerVM.Instance.ConnectedDevice!=null && BluetoothManagerVM.Instance.ConnectedDevice.IsConnected && _navigationmanager!=null)
+            if (BluetoothManagerVM.Instance.ConnectedDevice != null && BluetoothManagerVM.Instance.ConnectedDevice.IsConnected && _navigationmanager != null)
             {
                 _navigationmanager.NavigateTo("/remote");
             }
+            SetStateChanged();
         }
 
 
@@ -104,7 +95,9 @@ namespace Nauti_Control_Mobile.ViewModels
             if (_adapter.IsScanning)
             {
                 await _adapter.StopScanningForDevicesAsync();
+                
             }
+            SetStateChanged();
         }
 
         /// <summary>
