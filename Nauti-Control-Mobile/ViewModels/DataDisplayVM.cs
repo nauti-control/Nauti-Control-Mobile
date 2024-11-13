@@ -1,16 +1,9 @@
-﻿using Nauti_Control_Mobile.Models;
-using Nauti_Control_Mobile.ViewModels.Bluetooth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Nauti_Control_Mobile.ViewModels.Bluetooth;
 
 namespace Nauti_Control_Mobile.ViewModels
 {
     public class DataDisplayVM : BaseVM
     {
-
         public string WindAngle
         {
             get
@@ -67,14 +60,9 @@ namespace Nauti_Control_Mobile.ViewModels
             }
         }
 
-
-
         public DataDisplayVM(Action stateChanged) : base(stateChanged)
         {
-            
         }
-
-
 
         /// <summary>
         /// On Data Updated Event

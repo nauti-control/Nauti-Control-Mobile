@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Nauti_Control_Mobile.Models
+﻿namespace Nauti_Control_Mobile.Models
 {
     public class BoatData
     {

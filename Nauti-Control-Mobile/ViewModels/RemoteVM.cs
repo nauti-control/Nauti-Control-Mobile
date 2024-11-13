@@ -1,14 +1,8 @@
-﻿using Nauti_Control_Mobile.Components.Pages;
-using Nauti_Control_Mobile.ViewModels.Bluetooth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Nauti_Control_Mobile.ViewModels.Bluetooth;
 
 namespace Nauti_Control_Mobile.ViewModels
 {
-    public class RemoteVM:BaseVM 
+    public class RemoteVM : BaseVM
     {
         public BluetoothDeviceVM? ConnectedDevice
         {
@@ -18,11 +12,9 @@ namespace Nauti_Control_Mobile.ViewModels
             }
         }
 
-        public RemoteVM(Action stateChanged):base(stateChanged) 
+        public RemoteVM(Action stateChanged) : base(stateChanged)
         {
-            
         }
-
 
         /// <summary>
         /// Remote Code
@@ -35,7 +27,5 @@ namespace Nauti_Control_Mobile.ViewModels
                 await ConnectedDevice.SendCommand(remoteCode.ToString());
             }
         }
-
-        
     }
 }

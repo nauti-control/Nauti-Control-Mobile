@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Nauti_Control_Mobile.ViewModels.Bluetooth;
 using Plugin.BLE.Abstractions.Contracts;
+using System.Collections.ObjectModel;
 
 namespace Nauti_Control_Mobile.ViewModels
 {
     public class BluetoothVM : BaseVM
     {
-
         private IAdapter _adapter;
 
         private NavigationManager? _navigationmanager;
+
         /// <summary>
         /// Bluetooth Devices
         /// </summary>
         public ObservableCollection<BluetoothDeviceVM> DeviceVMs { get; private set; } = new ObservableCollection<BluetoothDeviceVM>();
-
 
         /// <summary>
         /// Is Start Scan Button Disabled
@@ -33,26 +27,19 @@ namespace Nauti_Control_Mobile.ViewModels
             }
         }
 
-
-
-
         /// <summary>
         /// Start Scanning
         /// </summary>
         /// <returns></returns>
         public async Task StartScanning()
         {
-
             PermissionStatus status = await CheckBluetoothPermission();
             if (status == PermissionStatus.Granted && !_adapter.IsScanning)
             {
-
                 DeviceVMs.Clear();
                 SetStateChanged();
                 await _adapter.StartScanningForDevicesAsync();
             }
-
-
         }
 
         /// <summary>
@@ -62,12 +49,9 @@ namespace Nauti_Control_Mobile.ViewModels
 
         public BluetoothVM(Action stateHasChanged) : base(stateHasChanged)
         {
-
             _adapter = BluetoothManagerVM.Instance.Adapter;
             _adapter.DeviceDiscovered += DeviceDiscovered;
             BluetoothManagerVM.Instance.OnConnectionChanged += OnConnectionChanged;
-
-
         }
 
         /// <summary>
@@ -84,8 +68,6 @@ namespace Nauti_Control_Mobile.ViewModels
             SetStateChanged();
         }
 
-
-
         /// <summary>
         /// Stop Scanning
         /// </summary>
@@ -95,7 +77,6 @@ namespace Nauti_Control_Mobile.ViewModels
             if (_adapter.IsScanning)
             {
                 await _adapter.StopScanningForDevicesAsync();
-                
             }
             SetStateChanged();
         }
@@ -113,9 +94,7 @@ namespace Nauti_Control_Mobile.ViewModels
                 BluetoothDeviceVM vm = new BluetoothDeviceVM(e.Device, _adapter);
                 DeviceVMs.Add(vm);
                 SetStateChanged();
-
             }
-
         }
 
         /// <summary>
@@ -131,7 +110,6 @@ namespace Nauti_Control_Mobile.ViewModels
             }
 
             return status;
-
         }
 
         public async Task InitialiseAysnc(NavigationManager navigationManager)

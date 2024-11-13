@@ -1,18 +1,12 @@
 ﻿using Nauti_Control_Mobile.Models;
 using Plugin.BLE.Abstractions.Contracts;
-
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Nauti_Control_Mobile.ViewModels.Bluetooth
 {
     public class BluetoothDeviceVM
     {
-
         private IAdapter _adapter;
 
         private const string ServiceUUID = "778e5a27-1cc1-4bca-994f-7b2dbe34fcc6";
@@ -42,28 +36,22 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
         private ICharacteristic? _hdgCharacteristic;
         private ICharacteristic? _dptCharacteristic;
 
-   
-
-
         public BluetoothManagerVM ParentManager { get; set; }
+
         /// <summary>
         /// Is Conected
         /// </summary>
         public bool IsConnected { get; set; }
 
-
         /// <summary>
         /// Is Busy
         /// </summary>
         public bool IsBusy { get; set; }
-        
 
         /// <summary>
         /// Boat Data
         /// </summary>
         public BoatData Data { get; set; }
-
-
 
         /// <summary>
         /// Device Name
@@ -75,8 +63,8 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
                 return _bluetoothDevice.Name;
             }
         }
-        private IDevice _bluetoothDevice;
 
+        private IDevice _bluetoothDevice;
 
         /// <summary>
         /// Constructor
@@ -88,7 +76,7 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
             _bluetoothDevice = bluetoothDevice;
             _adapter = adapter;
             Data = new BoatData();
-            ParentManager =BluetoothManagerVM.Instance;
+            ParentManager = BluetoothManagerVM.Instance;
         }
 
         /// <summary>
@@ -99,7 +87,6 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
             IsBusy = true;
             try
             {
-               
                 await _adapter.ConnectToDeviceAsync(_bluetoothDevice);
                 IService service = await _bluetoothDevice.GetServiceAsync(Guid.Parse(ServiceUUID));
                 if (service != null)
@@ -146,8 +133,6 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
                     }
                     IsConnected = true;
                     ParentManager.ConnectedDevice = this;
-
-
                 }
             }
             catch (Exception ex)
@@ -156,12 +141,11 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
                 IsConnected = false;
                 ParentManager.ConnectedDevice = null;
             }
-            IsBusy= false;
-
+            IsBusy = false;
         }
 
         /// <summary>
-        /// Notification from BLE 
+        /// Notification from BLE
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -217,7 +201,6 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
             if (_cmdCharacteristic != null)
             {
                 await _cmdCharacteristic.WriteAsync(Encoding.ASCII.GetBytes(command));
-
             }
         }
 

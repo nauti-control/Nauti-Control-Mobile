@@ -1,15 +1,9 @@
 ﻿using Nauti_Control_Mobile.ViewModels.Bluetooth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nauti_Control_Mobile.ViewModels
 {
-    public  class NavMenuVM:BaseVM
+    public class NavMenuVM : BaseVM
     {
-
         /// <summary>
         /// Disable Nav if Not Connected
         /// </summary>
@@ -18,7 +12,7 @@ namespace Nauti_Control_Mobile.ViewModels
             get
             {
                 bool isConnected = false;
-                if (BluetoothManagerVM.Instance.ConnectedDevice!= null && BluetoothManagerVM.Instance.ConnectedDevice.IsConnected)
+                if (BluetoothManagerVM.Instance.ConnectedDevice != null && BluetoothManagerVM.Instance.ConnectedDevice.IsConnected)
                 {
                     isConnected = true;
                 }
@@ -30,10 +24,9 @@ namespace Nauti_Control_Mobile.ViewModels
         /// Constructor
         /// </summary>
         /// <param name="stateChanged"></param>
-        public NavMenuVM(Action stateChanged):base(stateChanged)
+        public NavMenuVM(Action stateChanged) : base(stateChanged)
         {
             BluetoothManagerVM.Instance.OnConnectionChanged += OnConnectionChanged;
-
         }
 
         /// <summary>

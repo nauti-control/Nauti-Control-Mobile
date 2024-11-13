@@ -1,17 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Nauti_Control_Mobile.ViewModels.Bluetooth;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nauti_Control_Mobile.ViewModels
 {
-    public class ConnectedDeviceVM:BaseVM
+    public class ConnectedDeviceVM : BaseVM
     {
-
         public bool IsBusy { get; set; }
 
         private NavigationManager? _navigationmanager;
@@ -42,7 +35,6 @@ namespace Nauti_Control_Mobile.ViewModels
             }
         }
 
-
         public async Task OnClick()
         {
             IsBusy = true;
@@ -57,7 +49,7 @@ namespace Nauti_Control_Mobile.ViewModels
         /// Constructor
         /// </summary>
         /// <param name="stateHasChanged"></param>
-        public ConnectedDeviceVM(Action stateHasChanged):base(stateHasChanged)
+        public ConnectedDeviceVM(Action stateHasChanged) : base(stateHasChanged)
         {
             BluetoothManagerVM.Instance.OnConnectionChanged += OnConnectionChanged;
         }
@@ -69,12 +61,11 @@ namespace Nauti_Control_Mobile.ViewModels
         /// <param name="e">Event</param>
         private void OnConnectionChanged(object? sender, EventArgs e)
         {
-            if (BluetoothManagerVM.Instance.ConnectedDevice == null  && _navigationmanager != null)
+            if (BluetoothManagerVM.Instance.ConnectedDevice == null && _navigationmanager != null)
             {
                 _navigationmanager.NavigateTo("/");
             }
             SetStateChanged();
-            
         }
 
         /// <summary>

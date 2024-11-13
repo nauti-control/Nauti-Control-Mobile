@@ -1,5 +1,4 @@
-﻿using Nauti_Control_Mobile.ViewModels;
-using Nauti_Control_Mobile.ViewModels.Bluetooth;
+﻿using Nauti_Control_Mobile.ViewModels.Bluetooth;
 
 namespace Nauti_Control_Mobile
 {
@@ -12,7 +11,6 @@ namespace Nauti_Control_Mobile
             MainPage = new MainPage();
 
             BluetoothManagerVM bluetoothManagerVM = new BluetoothManagerVM();
-           
         }
     }
 }

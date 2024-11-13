@@ -1,15 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nauti_Control_Mobile.Components.Pages
 {
-    public class CustomComponentBase:ComponentBase
+    public class CustomComponentBase : ComponentBase
     {
-
         /// <summary>
         /// On State Changed
         /// </summary>

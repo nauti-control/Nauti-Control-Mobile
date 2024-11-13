@@ -1,12 +1,5 @@
 ﻿using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nauti_Control_Mobile.ViewModels.Bluetooth
 {
@@ -16,17 +9,19 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
         private IAdapter _adapter;
 
         public event EventHandler? OnStateChanged;
-        public event EventHandler? OnDataUpdated;
-        public event EventHandler? OnConnectionChanged;
 
+        public event EventHandler? OnDataUpdated;
+
+        public event EventHandler? OnConnectionChanged;
 
         /// <summary>
         /// BT Adapter
         /// </summary>
-        public IAdapter Adapter { get { return _adapter; } }
-
+        public IAdapter Adapter
+        { get { return _adapter; } }
 
         private BluetoothDeviceVM? _connectedDevice;
+
         public BluetoothDeviceVM? ConnectedDevice
         {
             get
@@ -36,13 +31,11 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
 
             set
             {
-
                 _connectedDevice = value;
                 if (OnConnectionChanged != null)
                 {
                     OnConnectionChanged(this, EventArgs.Empty);
                 }
-
             }
         }
 
@@ -57,7 +50,6 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
             }
         }
 
-
         /// <summary>
         /// Static Instance
         /// </summary>
@@ -68,7 +60,6 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
         /// </summary>
         public BluetoothManagerVM()
         {
-
             _ble = CrossBluetoothLE.Current;
             _adapter = CrossBluetoothLE.Current.Adapter;
 
@@ -77,8 +68,6 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
 
             Instance = this;
         }
-
-
 
         /// <summary>
         /// Scan Timeout Elapsed
@@ -100,8 +89,5 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
                 OnStateChanged(this, EventArgs.Empty);
             }
         }
-
-
-
     }
 }
