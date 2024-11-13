@@ -4,14 +4,14 @@ namespace Nauti_Control_Mobile.Components.Pages
 {
     public partial class Bluetooth : CustomComponentBase
     {
-        private BluetoothVM VM
-        {
-            get; set;
-        }
-
         public Bluetooth()
         {
             VM = new BluetoothVM(OnStateChanged);
+        }
+
+        private BluetoothVM VM
+        {
+            get; set;
         }
 
         protected override async Task OnInitializedAsync()

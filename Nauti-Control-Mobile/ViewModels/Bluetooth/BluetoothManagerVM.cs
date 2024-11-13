@@ -5,22 +5,40 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
 {
     public class BluetoothManagerVM
     {
-        private IBluetoothLE _ble;
         private IAdapter _adapter;
+        private IBluetoothLE _ble;
+        private BluetoothDeviceVM? _connectedDevice;
 
-        public event EventHandler? OnStateChanged;
+        /// <summary>
+        /// Consructor
+        /// </summary>
+        public BluetoothManagerVM()
+        {
+            _ble = CrossBluetoothLE.Current;
+            _adapter = CrossBluetoothLE.Current.Adapter;
+
+            _adapter.ScanMode = ScanMode.Balanced;
+            _adapter.ScanTimeoutElapsed += ScanTimeoutElapsed;
+
+            Instance = this;
+        }
+
+        public event EventHandler? OnConnectionChanged;
 
         public event EventHandler? OnDataUpdated;
 
-        public event EventHandler? OnConnectionChanged;
+        public event EventHandler? OnStateChanged;
+
+        /// <summary>
+        /// Static Instance
+        /// </summary>
+        public static BluetoothManagerVM Instance { get; internal set; }
 
         /// <summary>
         /// BT Adapter
         /// </summary>
         public IAdapter Adapter
         { get { return _adapter; } }
-
-        private BluetoothDeviceVM? _connectedDevice;
 
         public BluetoothDeviceVM? ConnectedDevice
         {
@@ -51,22 +69,14 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
         }
 
         /// <summary>
-        /// Static Instance
+        /// State Changed
         /// </summary>
-        public static BluetoothManagerVM Instance { get; internal set; }
-
-        /// <summary>
-        /// Consructor
-        /// </summary>
-        public BluetoothManagerVM()
+        protected void StateChanged()
         {
-            _ble = CrossBluetoothLE.Current;
-            _adapter = CrossBluetoothLE.Current.Adapter;
-
-            _adapter.ScanMode = ScanMode.Balanced;
-            _adapter.ScanTimeoutElapsed += ScanTimeoutElapsed;
-
-            Instance = this;
+            if (OnStateChanged != null)
+            {
+                OnStateChanged(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -77,17 +87,6 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
         private void ScanTimeoutElapsed(object? sender, EventArgs e)
         {
             StateChanged();
-        }
-
-        /// <summary>
-        /// State Changed
-        /// </summary>
-        protected void StateChanged()
-        {
-            if (OnStateChanged != null)
-            {
-                OnStateChanged(this, EventArgs.Empty);
-            }
         }
     }
 }

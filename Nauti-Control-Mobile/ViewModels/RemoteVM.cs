@@ -4,16 +4,16 @@ namespace Nauti_Control_Mobile.ViewModels
 {
     public class RemoteVM : BaseVM
     {
+        public RemoteVM(Action stateChanged) : base(stateChanged)
+        {
+        }
+
         public BluetoothDeviceVM? ConnectedDevice
         {
             get
             {
                 return BluetoothManagerVM.Instance.ConnectedDevice;
             }
-        }
-
-        public RemoteVM(Action stateChanged) : base(stateChanged)
-        {
         }
 
         /// <summary>

@@ -5,6 +5,15 @@ namespace Nauti_Control_Mobile.ViewModels
     public class NavMenuVM : BaseVM
     {
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="stateChanged"></param>
+        public NavMenuVM(Action stateChanged) : base(stateChanged)
+        {
+            BluetoothManagerVM.Instance.OnConnectionChanged += OnConnectionChanged;
+        }
+
+        /// <summary>
         /// Disable Nav if Not Connected
         /// </summary>
         public bool IsConnected
@@ -18,15 +27,6 @@ namespace Nauti_Control_Mobile.ViewModels
                 }
                 return isConnected;
             }
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="stateChanged"></param>
-        public NavMenuVM(Action stateChanged) : base(stateChanged)
-        {
-            BluetoothManagerVM.Instance.OnConnectionChanged += OnConnectionChanged;
         }
 
         /// <summary>

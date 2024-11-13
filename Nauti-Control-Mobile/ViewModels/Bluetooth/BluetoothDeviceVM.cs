@@ -7,64 +7,25 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
 {
     public class BluetoothDeviceVM
     {
-        private IAdapter _adapter;
-
-        private const string ServiceUUID = "778e5a27-1cc1-4bca-994f-7b2dbe34fcc6";
-
-        private const string CmdCharacteristicUUID = "46ba71f1-c22c-42ae-832c-81414bde99ee";
-
         private const string AwaCharacteristicUUID = "fd3e532c-f882-499a-b2fd-c68cca630949";
-
         private const string AwsCharacteristicUUID = "6dce0177-7b5c-4274-a726-9202e292ec0c";
-
-        private const string StwCharacteristicUUID = "83e0c967-4352-4187-9feb-d7cd3c89e01d";
-
-        private const string SogCharacteristicUUID = "5eacdf71-af9a-458c-86db-e247db17e399";
-
+        private const string CmdCharacteristicUUID = "46ba71f1-c22c-42ae-832c-81414bde99ee";
         private const string CogCharacteristicUUID = "dc0439f8-23bc-44b0-8e0c-a8e06272f4fa";
-
-        private const string HdgCharacteristicUUID = "799ee17b-5f1a-4962-b236-ac80185d9186";
-
         private const string DptCharacteristicUUID = "7fdda184-b61a-4358-9213-41a5f934a7bb";
-
-        private ICharacteristic? _cmdCharacteristic;
+        private const string HdgCharacteristicUUID = "799ee17b-5f1a-4962-b236-ac80185d9186";
+        private const string ServiceUUID = "778e5a27-1cc1-4bca-994f-7b2dbe34fcc6";
+        private const string SogCharacteristicUUID = "5eacdf71-af9a-458c-86db-e247db17e399";
+        private const string StwCharacteristicUUID = "83e0c967-4352-4187-9feb-d7cd3c89e01d";
+        private IAdapter _adapter;
         private ICharacteristic? _awaCharacteristic;
         private ICharacteristic? _awsCharacteristic;
-        private ICharacteristic? _stwCharacteristic;
-        private ICharacteristic? _sogCharacteristic;
-        private ICharacteristic? _cogCharacteristic;
-        private ICharacteristic? _hdgCharacteristic;
-        private ICharacteristic? _dptCharacteristic;
-
-        public BluetoothManagerVM ParentManager { get; set; }
-
-        /// <summary>
-        /// Is Conected
-        /// </summary>
-        public bool IsConnected { get; set; }
-
-        /// <summary>
-        /// Is Busy
-        /// </summary>
-        public bool IsBusy { get; set; }
-
-        /// <summary>
-        /// Boat Data
-        /// </summary>
-        public BoatData Data { get; set; }
-
-        /// <summary>
-        /// Device Name
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return _bluetoothDevice.Name;
-            }
-        }
-
         private IDevice _bluetoothDevice;
+        private ICharacteristic? _cmdCharacteristic;
+        private ICharacteristic? _cogCharacteristic;
+        private ICharacteristic? _dptCharacteristic;
+        private ICharacteristic? _hdgCharacteristic;
+        private ICharacteristic? _sogCharacteristic;
+        private ICharacteristic? _stwCharacteristic;
 
         /// <summary>
         /// Constructor
@@ -78,6 +39,34 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
             Data = new BoatData();
             ParentManager = BluetoothManagerVM.Instance;
         }
+
+        /// <summary>
+        /// Boat Data
+        /// </summary>
+        public BoatData Data { get; set; }
+
+        /// <summary>
+        /// Is Busy
+        /// </summary>
+        public bool IsBusy { get; set; }
+
+        /// <summary>
+        /// Is Conected
+        /// </summary>
+        public bool IsConnected { get; set; }
+
+        /// <summary>
+        /// Device Name
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return _bluetoothDevice.Name;
+            }
+        }
+
+        public BluetoothManagerVM ParentManager { get; set; }
 
         /// <summary>
         /// Connect
@@ -145,6 +134,27 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
         }
 
         /// <summary>
+        /// Send Command Over BT
+        /// </summary>
+        /// <param name="command">command</param>
+        public async Task SendCommand(string command)
+        {
+            if (_cmdCharacteristic != null)
+            {
+                await _cmdCharacteristic.WriteAsync(Encoding.ASCII.GetBytes(command));
+            }
+        }
+
+        /// <summary>
+        /// Disconnect
+        /// </summary>
+        internal async Task Disconnect()
+        {
+            await _adapter.DisconnectDeviceAsync(_bluetoothDevice);
+            ParentManager.ConnectedDevice = null;
+        }
+
+        /// <summary>
         /// Notification from BLE
         /// </summary>
         /// <param name="sender"></param>
@@ -190,27 +200,6 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
                     ParentManager.DataUpdated();
                 }
             }
-        }
-
-        /// <summary>
-        /// Send Command Over BT
-        /// </summary>
-        /// <param name="command">command</param>
-        public async Task SendCommand(string command)
-        {
-            if (_cmdCharacteristic != null)
-            {
-                await _cmdCharacteristic.WriteAsync(Encoding.ASCII.GetBytes(command));
-            }
-        }
-
-        /// <summary>
-        /// Disconnect
-        /// </summary>
-        internal async Task Disconnect()
-        {
-            await _adapter.DisconnectDeviceAsync(_bluetoothDevice);
-            ParentManager.ConnectedDevice = null;
         }
     }
 }

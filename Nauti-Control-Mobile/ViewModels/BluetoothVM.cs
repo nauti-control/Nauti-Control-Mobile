@@ -11,6 +11,13 @@ namespace Nauti_Control_Mobile.ViewModels
 
         private NavigationManager? _navigationmanager;
 
+        public BluetoothVM(Action stateHasChanged) : base(stateHasChanged)
+        {
+            _adapter = BluetoothManagerVM.Instance.Adapter;
+            _adapter.DeviceDiscovered += DeviceDiscovered;
+            BluetoothManagerVM.Instance.OnConnectionChanged += OnConnectionChanged;
+        }
+
         /// <summary>
         /// Bluetooth Devices
         /// </summary>
@@ -28,6 +35,26 @@ namespace Nauti_Control_Mobile.ViewModels
         }
 
         /// <summary>
+        /// Check Bluetooth Permissions
+        /// </summary>
+        /// <returns>Status</returns>
+        public async Task<PermissionStatus> CheckBluetoothPermission()
+        {
+            PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.Bluetooth>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<Permissions.Bluetooth>();
+            }
+
+            return status;
+        }
+
+        public async Task InitialiseAysnc(NavigationManager navigationManager)
+        {
+            _navigationmanager = navigationManager;
+        }
+
+        /// <summary>
         /// Start Scanning
         /// </summary>
         /// <returns></returns>
@@ -40,32 +67,6 @@ namespace Nauti_Control_Mobile.ViewModels
                 SetStateChanged();
                 await _adapter.StartScanningForDevicesAsync();
             }
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="stateHasChanged">State Has CHanged</param>
-
-        public BluetoothVM(Action stateHasChanged) : base(stateHasChanged)
-        {
-            _adapter = BluetoothManagerVM.Instance.Adapter;
-            _adapter.DeviceDiscovered += DeviceDiscovered;
-            BluetoothManagerVM.Instance.OnConnectionChanged += OnConnectionChanged;
-        }
-
-        /// <summary>
-        /// On Conncetion Changed
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Event</param>
-        private void OnConnectionChanged(object? sender, EventArgs e)
-        {
-            if (BluetoothManagerVM.Instance.ConnectedDevice != null && BluetoothManagerVM.Instance.ConnectedDevice.IsConnected && _navigationmanager != null)
-            {
-                _navigationmanager.NavigateTo("/remote");
-            }
-            SetStateChanged();
         }
 
         /// <summary>
@@ -98,23 +99,21 @@ namespace Nauti_Control_Mobile.ViewModels
         }
 
         /// <summary>
-        /// Check Bluetooth Permissions
+        /// Constructor
         /// </summary>
-        /// <returns>Status</returns>
-        public async Task<PermissionStatus> CheckBluetoothPermission()
+        /// <param name="stateHasChanged">State Has CHanged</param>
+        /// <summary>
+        /// On Conncetion Changed
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event</param>
+        private void OnConnectionChanged(object? sender, EventArgs e)
         {
-            PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.Bluetooth>();
-            if (status != PermissionStatus.Granted)
+            if (BluetoothManagerVM.Instance.ConnectedDevice != null && BluetoothManagerVM.Instance.ConnectedDevice.IsConnected && _navigationmanager != null)
             {
-                status = await Permissions.RequestAsync<Permissions.Bluetooth>();
+                _navigationmanager.NavigateTo("/remote");
             }
-
-            return status;
-        }
-
-        public async Task InitialiseAysnc(NavigationManager navigationManager)
-        {
-            _navigationmanager = navigationManager;
+            SetStateChanged();
         }
     }
 }

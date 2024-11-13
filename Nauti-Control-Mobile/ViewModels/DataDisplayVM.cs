@@ -4,19 +4,15 @@ namespace Nauti_Control_Mobile.ViewModels
 {
     public class DataDisplayVM : BaseVM
     {
-        public string WindAngle
+        public DataDisplayVM(Action stateChanged) : base(stateChanged)
         {
-            get
-            {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.AWA.ToString();
-            }
         }
 
-        public string WindSpeed
+        public string COG
         {
             get
             {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.AWS.ToString();
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.COG.ToString();
             }
         }
 
@@ -25,6 +21,14 @@ namespace Nauti_Control_Mobile.ViewModels
             get
             {
                 return BluetoothManagerVM.Instance.ConnectedDevice.Data.DPT.ToString();
+            }
+        }
+
+        public string HDG
+        {
+            get
+            {
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.HDG.ToString();
             }
         }
 
@@ -44,24 +48,20 @@ namespace Nauti_Control_Mobile.ViewModels
             }
         }
 
-        public string COG
+        public string WindAngle
         {
             get
             {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.COG.ToString();
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.AWA.ToString();
             }
         }
 
-        public string HDG
+        public string WindSpeed
         {
             get
             {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.HDG.ToString();
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.AWS.ToString();
             }
-        }
-
-        public DataDisplayVM(Action stateChanged) : base(stateChanged)
-        {
         }
 
         /// <summary>

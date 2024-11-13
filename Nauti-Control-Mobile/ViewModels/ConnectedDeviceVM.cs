@@ -5,9 +5,16 @@ namespace Nauti_Control_Mobile.ViewModels
 {
     public class ConnectedDeviceVM : BaseVM
     {
-        public bool IsBusy { get; set; }
-
         private NavigationManager? _navigationmanager;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="stateHasChanged"></param>
+        public ConnectedDeviceVM(Action stateHasChanged) : base(stateHasChanged)
+        {
+            BluetoothManagerVM.Instance.OnConnectionChanged += OnConnectionChanged;
+        }
 
         public string ConnectionMessage
         {
@@ -24,6 +31,8 @@ namespace Nauti_Control_Mobile.ViewModels
             }
         }
 
+        public bool IsBusy { get; set; }
+
         /// <summary>
         /// Is Connected
         /// </summary>
@@ -35,6 +44,16 @@ namespace Nauti_Control_Mobile.ViewModels
             }
         }
 
+        /// <summary>
+        /// Initialise Async
+        /// </summary>
+        /// <param name="navigationManager"></param>
+        /// <returns></returns>
+        public async Task InitialiseAysnc(NavigationManager navigationManager)
+        {
+            _navigationmanager = navigationManager;
+        }
+
         public async Task OnClick()
         {
             IsBusy = true;
@@ -43,15 +62,6 @@ namespace Nauti_Control_Mobile.ViewModels
                 await BluetoothManagerVM.Instance.ConnectedDevice.Disconnect();
             }
             IsBusy = false;
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="stateHasChanged"></param>
-        public ConnectedDeviceVM(Action stateHasChanged) : base(stateHasChanged)
-        {
-            BluetoothManagerVM.Instance.OnConnectionChanged += OnConnectionChanged;
         }
 
         /// <summary>
@@ -66,16 +76,6 @@ namespace Nauti_Control_Mobile.ViewModels
                 _navigationmanager.NavigateTo("/");
             }
             SetStateChanged();
-        }
-
-        /// <summary>
-        /// Initialise Async
-        /// </summary>
-        /// <param name="navigationManager"></param>
-        /// <returns></returns>
-        public async Task InitialiseAysnc(NavigationManager navigationManager)
-        {
-            _navigationmanager = navigationManager;
         }
     }
 }
