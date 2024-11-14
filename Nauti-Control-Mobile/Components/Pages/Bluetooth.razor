@@ -6,11 +6,10 @@
 
 <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" Gap="1rem" Wrap="FlexWrap.Wrap">
 
-    <RadzenButton BusyText="Scanning" IsBusy="@VM.IsStartScanBusy" Click=@(args => VM.StartScanning()) Text="Start Scan" ButtonStyle="ButtonStyle.Primary" />
-    @if (VM.IsStartScanBusy)
-    {
-        <RadzenButton Click=@(args => VM.StopScanning()) Text="Stop Scan" ButtonStyle="ButtonStyle.Secondary" />
-    }
+    <RadzenButton BusyText="Scanning" IsBusy="@VM.IsStartScanBusy" Click=@(args => VM.StartScanning()) Text="Start Scan" Style="width:150px" ButtonStyle="ButtonStyle.Primary" />
+   
+        <RadzenButton Disabled="@VM.IsStopScanDisabled" Click=@(args => VM.StopScanning()) Text="Stop Scan" Style="width:150px" ButtonStyle="ButtonStyle.Secondary" />
+    
 </RadzenStack>
 
 <RadzenDataList AllowVirtualization="true" Style="height:100%;overflow:auto;"

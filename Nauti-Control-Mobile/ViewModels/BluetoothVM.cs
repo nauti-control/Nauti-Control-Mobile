@@ -34,6 +34,14 @@ namespace Nauti_Control_Mobile.ViewModels
             }
         }
 
+        public bool IsStopScanDisabled
+        {
+            get
+            {
+                return !_adapter.IsScanning;
+            }
+        }
+
         /// <summary>
         /// Check Bluetooth Permissions
         /// </summary>
