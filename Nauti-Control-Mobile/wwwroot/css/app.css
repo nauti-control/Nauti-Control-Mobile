@@ -84,3 +84,10 @@ h1:focus {
         padding-left: env(safe-area-inset-left);
     }
 }
+.center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
