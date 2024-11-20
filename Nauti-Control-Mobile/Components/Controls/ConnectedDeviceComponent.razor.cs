@@ -10,7 +10,8 @@ namespace Nauti_Control_Mobile.Components.Controls
             VM = new ConnectedDeviceVM(OnStateChanged);
         }
 
-        ConnectedDeviceVM VM { get; set; }
+        private ConnectedDeviceVM VM { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();

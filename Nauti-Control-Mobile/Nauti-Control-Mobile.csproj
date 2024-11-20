@@ -22,10 +22,10 @@
         <Nullable>enable</Nullable>
 
         <!-- Display name -->
-        <ApplicationTitle>Nauti-Control-Mobile</ApplicationTitle>
+        <ApplicationTitle>Nauti-Control-Mobile2</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.nauticontrolmobile</ApplicationId>
+        <ApplicationId>com.nauticontrol.nauticontrolmobile</ApplicationId>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -41,13 +41,14 @@
 
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#512BD4" />
 
         <!-- Splash Screen -->
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
+        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
@@ -62,11 +63,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
         <PackageReference Include="Plugin.BLE" Version="3.1.0" />
-        <PackageReference Include="Radzen.Blazor" Version="5.5.5" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Resources\Images\" />
+        <PackageReference Include="Radzen.Blazor" Version="5.6.5" />
     </ItemGroup>
 
 </Project>
