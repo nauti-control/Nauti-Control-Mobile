@@ -86,36 +86,43 @@ namespace Nauti_Control_Mobile.ViewModels.Bluetooth
                         _cmdCharacteristic.ValueUpdated += ValueUpdated;
                     }
                     _awaCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(AwaCharacteristicUUID));
+                    await _awaCharacteristic.StartUpdatesAsync();
                     if (_awaCharacteristic != null)
                     {
                         _awaCharacteristic.ValueUpdated += ValueUpdated;
                     }
                     _awsCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(AwsCharacteristicUUID));
+                    await _awsCharacteristic.StartUpdatesAsync();
                     if (_awsCharacteristic != null)
                     {
                         _awsCharacteristic.ValueUpdated += ValueUpdated;
                     }
                     _stwCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(StwCharacteristicUUID));
+                    await _stwCharacteristic.StartUpdatesAsync();
                     if (_stwCharacteristic != null)
                     {
                         _stwCharacteristic.ValueUpdated += ValueUpdated;
                     }
                     _sogCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(SogCharacteristicUUID));
+                    await _sogCharacteristic.StartUpdatesAsync();
                     if (_sogCharacteristic != null)
                     {
                         _sogCharacteristic.ValueUpdated += ValueUpdated;
                     }
                     _cogCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CogCharacteristicUUID));
+                    await _cogCharacteristic.StartUpdatesAsync();
                     if (_cogCharacteristic != null)
                     {
                         _cogCharacteristic.ValueUpdated += ValueUpdated;
                     }
                     _hdgCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(HdgCharacteristicUUID));
+                    await _hdgCharacteristic.StartUpdatesAsync();
                     if (_hdgCharacteristic != null)
                     {
                         _hdgCharacteristic.ValueUpdated += ValueUpdated;
                     }
                     _dptCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(DptCharacteristicUUID));
+                    await _dptCharacteristic.StartUpdatesAsync();
                     if (_dptCharacteristic != null)
                     {
                         _dptCharacteristic.ValueUpdated += ValueUpdated;
