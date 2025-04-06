@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Radzen;
 
 namespace Nauti_Control_Mobile
 {
@@ -15,6 +16,12 @@ namespace Nauti_Control_Mobile
                 });
 
             builder.Services.AddMauiBlazorWebView();
+            
+            // Add Radzen services
+            builder.Services.AddScoped<DialogService>();
+            builder.Services.AddScoped<NotificationService>();
+            builder.Services.AddScoped<TooltipService>();
+            builder.Services.AddScoped<ContextMenuService>();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

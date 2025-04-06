@@ -1,85 +1,235 @@
 ﻿@page "/datadisplay"
 @inherits CustomComponentBase
-<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
-    <RadzenRow Gap="0">
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Wind Angle</RadzenText>
-        </RadzenColumn>
+@using Radzen
+@using Radzen.Blazor
 
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.WindAngle)°</RadzenText>
-        </RadzenColumn>
-    </RadzenRow>
-</RadzenCard>
-<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
-    <RadzenRow Gap="0">
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Wind Speed</RadzenText>
-        </RadzenColumn>
+<style>
+    .compass-container {
+        position: relative;
+        width: 100%;
+        height: 280px;
+    }
+    
+    .compass-value {
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        z-index: 10;
+    }
 
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.WindSpeed) KTs</RadzenText>
-        </RadzenColumn>
-    </RadzenRow>
-</RadzenCard>
+    .compass-labels {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
 
-<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
-    <RadzenRow Gap="0">
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Depth</RadzenText>
-        </RadzenColumn>
+    .cardinal-point {
+        position: absolute;
+        font-weight: bold;
+        font-size: 18px;
+    }
 
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.Depth) M</RadzenText>
-        </RadzenColumn>
-    </RadzenRow>
-</RadzenCard>
+    .cardinal-n {
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 
-<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
-    <RadzenRow Gap="0">
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Speed Over Ground</RadzenText>
-        </RadzenColumn>
+    .cardinal-e {
+        top: 50%;
+        right: 5%;
+        transform: translateY(-50%);
+    }
 
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.SOG) KTs</RadzenText>
-        </RadzenColumn>
-    </RadzenRow>
-</RadzenCard>
+    .cardinal-s {
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 
-<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
-    <RadzenRow Gap="0">
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Speed Through Water</RadzenText>
-        </RadzenColumn>
+    .cardinal-w {
+        top: 50%;
+        left: 5%;
+        transform: translateY(-50%);
+    }
 
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.STW) KTs</RadzenText>
-        </RadzenColumn>
-    </RadzenRow>
-</RadzenCard>
+    .gauge-value-container {
+        text-align: center;
+        padding-top: 10px;
+        font-weight: bold;
+        font-size: 24px;
+    }
 
-<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
-    <RadzenRow Gap="0">
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Course Over Ground</RadzenText>
-        </RadzenColumn>
+    .radzen-gauge {
+        width: 100%;
+        height: 220px;
+    }
 
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.COG) °</RadzenText>
-        </RadzenColumn>
-    </RadzenRow>
-</RadzenCard>
+    .card-title {
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 20px;
+    }
+    
+    .gauge-card {
+        padding: 15px;
+    }
+</style>
 
-<RadzenCard Variant="Variant.Outlined" class="rz-p-0" Style="width: 100%; overflow: hidden;">
-    <RadzenRow Gap="0">
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">Heading</RadzenText>
-        </RadzenColumn>
+<RadzenRow Gap="1rem">
+    <!-- Wind Angle - Special Wind Gauge -->
+    <RadzenColumn Size="12" SizeMD="6" Class="rz-p-2">
+        <RadzenCard Class="gauge-card">
+            <RadzenText TextStyle="TextStyle.H6" Class="card-title">Wind Angle</RadzenText>
+            <div class="compass-container">
+                <div class="compass-value">@VM.WindAngle.ToString("F0")°</div>
+                <RadzenRadialGauge Style="width: 100%; height: 280px;">
+                    <RadzenRadialGaugeScale StartAngle="0" EndAngle="360" Step="45" Min="0" Max="360" 
+                        TickPosition="GaugeTickPosition.Outside" TickLength="10" TickLabelOffset="15"
+                        ShowFirstTick="true" ShowLastTick="false">
+                        <RadzenRadialGaugeScalePointer Value="@VM.WindAngle" Length="0.7" Width="7" ShowValue="false" />
+                        <RadzenRadialGaugeScaleRange From="0" To="40" Fill="rgba(46, 204, 113, 0.3)" />
+                        <RadzenRadialGaugeScaleRange From="320" To="360" Fill="rgba(231, 76, 60, 0.3)" />
+                        <RadzenRadialGaugeScaleRange From="40" To="320" Fill="transparent" />
+                    </RadzenRadialGaugeScale>
+                </RadzenRadialGauge>
+            </div>
+        </RadzenCard>
+    </RadzenColumn>
+    
+    <!-- Wind Speed - Arc Gauge -->
+    <RadzenColumn Size="12" SizeMD="6" Class="rz-p-2">
+        <RadzenCard Class="gauge-card">
+            <RadzenText TextStyle="TextStyle.H6" Class="card-title">Wind Speed</RadzenText>
+            <RadzenArcGauge Class="radzen-gauge">
+                <RadzenArcGaugeScale Min="0" Max="50" Step="5" TickPosition="GaugeTickPosition.Outside" MinorStep="5">
+                    <RadzenArcGaugeScaleValue Value="@VM.WindSpeed" ShowValue="false" Stroke="#333" StrokeWidth="3" />
+                    <RadzenArcGaugeScaleRange From="0" To="15" Fill="#2ecc71" />
+                    <RadzenArcGaugeScaleRange From="15" To="25" Fill="#f39c12" />
+                    <RadzenArcGaugeScaleRange From="25" To="50" Fill="#e74c3c" />
+                </RadzenArcGaugeScale>
+            </RadzenArcGauge>
+            <div class="gauge-value-container">
+                @VM.WindSpeed.ToString("F1") KTs
+            </div>
+        </RadzenCard>
+    </RadzenColumn>
 
-        <RadzenColumn Size="6" class="rz-p-4">
-            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-on-secondary-lighter">@(VM.HDG) °</RadzenText>
-        </RadzenColumn>
-    </RadzenRow>
-</RadzenCard>
+    <!-- Depth - Arc Gauge -->
+    <RadzenColumn Size="12" SizeMD="6" Class="rz-p-2">
+        <RadzenCard Class="gauge-card">
+            <RadzenText TextStyle="TextStyle.H6" Class="card-title">Depth</RadzenText>
+            <RadzenArcGauge Class="radzen-gauge">
+                <RadzenArcGaugeScale Min="0" Max="100" Step="10" TickPosition="GaugeTickPosition.Outside">
+                    <RadzenArcGaugeScaleValue Value="@VM.Depth" ShowValue="false" Stroke="#333" StrokeWidth="3" />
+                    <RadzenArcGaugeScaleRange From="0" To="2" Fill="#e74c3c" />
+                    <RadzenArcGaugeScaleRange From="2" To="5" Fill="#f39c12" />
+                    <RadzenArcGaugeScaleRange From="5" To="100" Fill="#2ecc71" />
+                </RadzenArcGaugeScale>
+            </RadzenArcGauge>
+            <div class="gauge-value-container">
+                @VM.Depth.ToString("F1") M
+            </div>
+        </RadzenCard>
+    </RadzenColumn>
+
+    <!-- Speed Over Ground - Arc Gauge -->
+    <RadzenColumn Size="12" SizeMD="6" Class="rz-p-2">
+        <RadzenCard Class="gauge-card">
+            <RadzenText TextStyle="TextStyle.H6" Class="card-title">Speed Over Ground</RadzenText>
+            <RadzenArcGauge Class="radzen-gauge">
+                <RadzenArcGaugeScale Min="0" Max="20" Step="2" TickPosition="GaugeTickPosition.Outside">
+                    <RadzenArcGaugeScaleValue Value="@VM.SOG" ShowValue="false" Stroke="#333" StrokeWidth="3" />
+                    <RadzenArcGaugeScaleRange From="0" To="20" Fill="#bdbdbd" />
+                </RadzenArcGaugeScale>
+            </RadzenArcGauge>
+            <div class="gauge-value-container">
+                @VM.SOG.ToString("F1") KTs
+            </div>
+        </RadzenCard>
+    </RadzenColumn>
+
+    <!-- Speed Through Water - Arc Gauge -->
+    <RadzenColumn Size="12" SizeMD="6" Class="rz-p-2">
+        <RadzenCard Class="gauge-card">
+            <RadzenText TextStyle="TextStyle.H6" Class="card-title">Speed Through Water</RadzenText>
+            <RadzenArcGauge Class="radzen-gauge">
+                <RadzenArcGaugeScale Min="0" Max="20" Step="2" TickPosition="GaugeTickPosition.Outside">
+                    <RadzenArcGaugeScaleValue Value="@VM.STW" ShowValue="false" Stroke="#333" StrokeWidth="3" />
+                    <RadzenArcGaugeScaleRange From="0" To="20" Fill="#90caf9" />
+                </RadzenArcGaugeScale>
+            </RadzenArcGauge>
+            <div class="gauge-value-container">
+                @VM.STW.ToString("F1") KTs
+            </div>
+        </RadzenCard>
+    </RadzenColumn>
+
+    <!-- Course Over Ground - Compass Style -->
+    <RadzenColumn Size="12" SizeMD="6" Class="rz-p-2">
+        <RadzenCard Class="gauge-card">
+            <RadzenText TextStyle="TextStyle.H6" Class="card-title">Course Over Ground</RadzenText>
+            <div class="compass-container">
+                <div class="compass-value">@VM.COG.ToString("F0")°</div>
+                <RadzenRadialGauge Style="width: 100%; height: 280px;">
+                    <RadzenRadialGaugeScale StartAngle="0" EndAngle="360" Step="45" Min="0" Max="360" 
+                        TickPosition="GaugeTickPosition.Outside" TickLength="10" TickLabelOffset="15"
+                        ShowFirstTick="true" ShowLastTick="false">
+                        <RadzenRadialGaugeScalePointer Value="@VM.COG" Length="0.7" Width="7" ShowValue="false" />
+                        <RadzenRadialGaugeScaleRange From="0" To="360" Fill="transparent" />
+                    </RadzenRadialGaugeScale>
+                </RadzenRadialGauge>
+                <div class="compass-labels">
+                    <div class="cardinal-point cardinal-n">N</div>
+                    <div class="cardinal-point cardinal-e">E</div>
+                    <div class="cardinal-point cardinal-s">S</div>
+                    <div class="cardinal-point cardinal-w">W</div>
+                </div>
+            </div>
+        </RadzenCard>
+    </RadzenColumn>
+
+    <!-- Heading - Compass Style -->
+    <RadzenColumn Size="12" SizeMD="6" Class="rz-p-2">
+        <RadzenCard Class="gauge-card">
+            <RadzenText TextStyle="TextStyle.H6" Class="card-title">Heading</RadzenText>
+            <div class="compass-container">
+                <div class="compass-value">@VM.HDG.ToString("F0")°</div>
+                <RadzenRadialGauge Style="width: 100%; height: 280px;">
+                    <RadzenRadialGaugeScale StartAngle="0" EndAngle="360" Step="45" Min="0" Max="360" 
+                        TickPosition="GaugeTickPosition.Outside" TickLength="10" TickLabelOffset="15"
+                        ShowFirstTick="true" ShowLastTick="false">
+                        <RadzenRadialGaugeScalePointer Value="@VM.HDG" Length="0.7" Width="7" ShowValue="false" />
+                        <RadzenRadialGaugeScaleRange From="0" To="360" Fill="transparent" />
+                    </RadzenRadialGaugeScale>
+                </RadzenRadialGauge>
+                <div class="compass-labels">
+                    <div class="cardinal-point cardinal-n">N</div>
+                    <div class="cardinal-point cardinal-e">E</div>
+                    <div class="cardinal-point cardinal-s">S</div>
+                    <div class="cardinal-point cardinal-w">W</div>
+                </div>
+            </div>
+        </RadzenCard>
+    </RadzenColumn>
+</RadzenRow>
+
+@code {
+    private ProgressBarStyle GetDepthStyle(double depth)
+    {
+        if (depth < 2)
+            return ProgressBarStyle.Danger;
+        else if (depth < 5)
+            return ProgressBarStyle.Warning;
+        else
+            return ProgressBarStyle.Success;
+    }
+}
 

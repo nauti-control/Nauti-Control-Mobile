@@ -6,61 +6,62 @@ namespace Nauti_Control_Mobile.ViewModels
     {
         public DataDisplayVM(Action stateChanged) : base(stateChanged)
         {
+            // No event subscription needed
         }
 
-        public string COG
+        public double COG
         {
             get
             {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.COG.ToString();
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.COG;
             }
         }
 
-        public string Depth
+        public double Depth
         {
             get
             {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.DPT.ToString();
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.DPT;
             }
         }
 
-        public string HDG
+        public double HDG
         {
             get
             {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.HDG.ToString();
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.HDG;
             }
         }
 
-        public string SOG
+        public double SOG
         {
             get
             {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.SOG.ToString();
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.SOG;
             }
         }
 
-        public string STW
+        public double STW
         {
             get
             {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.STW.ToString();
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.STW;
             }
         }
 
-        public string WindAngle
+        public double WindAngle
         {
             get
             {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.AWA.ToString();
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.AWA;
             }
         }
 
-        public string WindSpeed
+        public double WindSpeed
         {
             get
             {
-                return BluetoothManagerVM.Instance.ConnectedDevice.Data.AWS.ToString();
+                return BluetoothManagerVM.Instance.ConnectedDevice.Data.AWS;
             }
         }
 
